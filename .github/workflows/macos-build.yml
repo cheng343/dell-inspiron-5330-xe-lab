@@ -1,0 +1,42 @@
+name: Build upstream Xe kernel components
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: upstream-xe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15-intel
+    timeout-minutes: 20
+    steps:
+      - name: Check out build configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build unmodified upstream kernel components
+        shell: bash
+        run: |
+          mkdir -p build
+          set -o pipefail
+          bash build-upstream.sh 2>&1 | tee build/build.log
+      - name: Verify x86_64 kernel bundles and package them
+        run: python3 tools/verify-and-package.py
+      - name: Upload artifacts and build log
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: upstream-xe-${{ github.sha }}
+          path: |
+            build/dell5330-upstream-kexts.tar.gz
+            build/artifact-manifest.json
+            build/build.log
+            build/source-state.txt
+          retention-days: 7
+          if-no-files-found: warn

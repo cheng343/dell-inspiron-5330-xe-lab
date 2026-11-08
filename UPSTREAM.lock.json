@@ -1,0 +1,9 @@
+{
+  "source_repository": "https://github.com/JulioNectar/Hackintosh-XPS13Plus-IrisXe-Tahoe.git",
+  "source_commit": "24450b476d7ca025b83c85d7b8362caf3234d2f2",
+  "sdk_repository": "https://github.com/acidanthera/MacKernelSDK.git",
+  "sdk_commit": "3f750085caa17ec3a7880f11c11bf4f48cd6a164",
+  "lilu_version": "1.7.2",
+  "lilu_archive_url": "https://github.com/acidanthera/Lilu/releases/download/1.7.2/Lilu-1.7.2-DEBUG.zip",
+  "lilu_archive_sha256": "e95df95d82e8b151047abf359ecd9c853755c59293e19dfcc3907da8fbd8cf89"
+}
